@@ -1,0 +1,49 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% block title %} System zarządzania biblioteką {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container mt-4">
+    <h1 class="text-center"><u>Lista dostępnych książek</u></h1>
+    <center><form method = "POST">
+    {% csrf_token %}
+        <div class="form-group col-md-12">
+            <div class="row mt-4">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control text-center" name="ask" placeholder="Wpisz tytuł szukanej książki">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary px-4 py-4" type="submit" value="ok"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <table class="table table-hover" id="example">
+        <thead>
+            <tr>
+                <th>Numer.Index</th>
+                <th>Nazwa Ksiazki</th>
+                <th>Liczba Stron</th>
+                <th>Autor</th>
+                <th>Gatunek</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{forloop.counter}}.</td>
+                <td>{{book.title}}</td>
+                <td>{{book.pages}}</td>
+                <td>
+                    {{book.author}}
+                </td>
+                <td>
+                    {{book.genre}}
+                </td>
+            {% endfor %}
+        </tbody>
+    </table>
+    </div>
+{% endblock %}
+

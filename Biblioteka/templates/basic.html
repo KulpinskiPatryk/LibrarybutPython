@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+
+    <title>{% block title %} {% endblock %}</title>
+    {% block css %}
+    {% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-expand-sm navbar-light bg-light sticky-top">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">System Biblioteczny</a>
+          <div class="" id="navbarSupportedContent">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/">Książki</a>
+              </li>
+              &nbsp;&nbsp;&nbsp;
+              <li class="nav-item">
+                <a class="nav-link active" href="/view_users/">Użytkownicy</a>
+              </li>
+              &nbsp;&nbsp;&nbsp;
+              <li class="nav-item">
+                <a class="nav-link active" href="/view_borowed/">Wypożyczone książki</a>
+              </li>
+
+              {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link active">Zalogowany {{user}}</a>
+              </li>
+              {% else %}
+              <li class="nav-item">
+                <a class="nav-link active">Zaloguj</a>
+              </li>
+              {% endif %}
+              &nbsp;&nbsp;&nbsp;
+            </ul>
+          </div>
+        </div>
+      </nav>
+      {% block body %}
+      {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    {% block js %}
+    {% endblock %}
+  </body>
+</html>
