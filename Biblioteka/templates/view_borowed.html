@@ -6,19 +6,6 @@
 {% block body %}
 <div class="container mt-4">
     <h1 class="text-center"><u>Lista wypożyczonych książek</u></h1>
-        <center><form method = "POST">
-    {% csrf_token %}
-        <div class="form-group col-md-12">
-            <div class="row mt-4">
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control text-center" name="ask" placeholder="Wpisz zwracaną książkę">
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-secondary px-4 py-4" type="submit" value="ok"></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
     <table class="table table-hover" id="example">
         <thead>
             <tr>

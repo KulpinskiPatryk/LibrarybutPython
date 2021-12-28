@@ -30,11 +30,11 @@
 
               {% if user.is_authenticated %}
               <li class="nav-item">
-                <a class="nav-link active">Zalogowany {{user}}</a>
+                <a class="nav-link active" href="/Logout/">Zalogowany {{user}}</a>
               </li>
               {% else %}
               <li class="nav-item">
-                <a class="nav-link active">Zaloguj</a>
+                <a class="nav-link active" href="/Login/">Zaloguj</a>
               </li>
               {% endif %}
               &nbsp;&nbsp;&nbsp;

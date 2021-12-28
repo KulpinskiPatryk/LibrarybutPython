@@ -4,7 +4,7 @@ from . import views
 urlpatterns = [
     path("", views.index, name="index"),
     path("view_users/", views.view_users, name="view_users"),
-    #path("search_book/", views.search_book, name="search_book"),
+    path("rent_book/<myuser>/", views.rent_book, name="rent_book"),
     path("view_borowed/", views.view_borowed, name="view_borowed"),
     #path("view_students/", views.view_students, name="view_students"),
     #path("issue_book/", views.issue_book, name="issue_book"),
@@ -16,8 +16,8 @@ urlpatterns = [
     #path("student_registration/", views.student_registration, name="student_registration"),
     #path("change_password/", views.change_password, name="change_password"),
     #path("student_login/", views.student_login, name="student_login"),
-    #path("admin_login/", views.admin_login, name="admin_login"),
-    #path("logout/", views.Logout, name="logout"),
+    path("Login/", views.Login, name="Login"),
+    path("Logout/", views.Logout, name="Logout"),
 
     #path("delete_book/<int:myid>/", views.delete_book, name="delete_book"),
     path("delete_student/<myuser>/", views.delete_student, name="delete_student"),

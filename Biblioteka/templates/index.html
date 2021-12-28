@@ -35,15 +35,16 @@
                 <td>{{forloop.counter}}.</td>
                 <td>{{book.title}}</td>
                 <td>{{book.pages}}</td>
-                <td>
-                    {{book.author}}
-                </td>
-                <td>
-                    {{book.genre}}
-                </td>
+                <td>{{book.author}}</td>
+                <td>{{book.genre}}</td>
+                {% if user.is_authenticated %}
+                    <td><a href="/rent_book/{{book.title}}/" class="btn btn-warning" >Wypożycz</a>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
     </div>
 {% endblock %}
+
+
 
