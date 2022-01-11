@@ -1,0 +1,47 @@
+{% extends 'basic.html' %}
+{% load static %}
+{% block title %}  System zarządzania biblioteką {% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+    <form method="POST" enctype="multipart/form-data"> {% csrf_token %}
+        <br>
+        <h1 class="text-center"><u>Rejestracja Użytkownika</u></h1>
+    <div class="row mt-4">
+        <div class="form-group col-md-12">
+            <label><i style="font-weight: bold;">Nazwa Użytkownika</i></label>
+            <input type="text" class="form-control mt-2" name="username" placeholder="Wprowadź Nazwę Użytkownika" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-6">
+            <label><i style="font-weight: bold;">Email</i></label>
+            <input type="email" class="form-control mt-2" name="email" placeholder="Podaj Email" required>
+        </div>
+    </div>
+    <div class="row mt-4">
+        <div class="form-group col-md-6">
+            <label><i style="font-weight: bold;">Hasło</i></label>
+            <input type="password" class="form-control mt-2" name="password" placeholder="Wprowadź Hasło" required>
+        </div>
+        <div class="form-group col-md-6">
+            <label><i style="font-weight: bold;"Potwierdź Hasło</i></label>
+            <input type="password" class="form-control mt-2" name="confirm_password" placeholder="Potwierdź Hasło" required>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-outline-primary mt-4">Zarejestruj się</button>
+</div>
+</form>
+<div class="text-center">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+</div>
+{% endblock %}
+
+

@@ -42,7 +42,7 @@ class Borrowed(models.Model):
     date_of_borrow = models.DateField(auto_now=True)
     date_to_return = models.DateField(default=date_return)
     book = models.ForeignKey(Books, on_delete=models.SET_NULL, null=True)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.book) + " " + str(self.user)

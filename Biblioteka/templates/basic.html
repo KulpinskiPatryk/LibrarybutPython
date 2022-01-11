@@ -19,11 +19,11 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="/">Książki</a>
               </li>
-              &nbsp;&nbsp;&nbsp;
+              {% if user.is_superuser %}
               <li class="nav-item">
                 <a class="nav-link active" href="/view_users/">Użytkownicy</a>
               </li>
-              &nbsp;&nbsp;&nbsp;
+              {% endif %}
               <li class="nav-item">
                 <a class="nav-link active" href="/view_borowed/">Wypożyczone książki</a>
               </li>

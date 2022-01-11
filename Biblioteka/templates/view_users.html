@@ -22,7 +22,8 @@
                 <td>{{u.user}}</td>
                 <td>{{u.date_of_start}}</td>
                 <td>{{u.date_of_end}}</td>
-                <td><a href="/delete_student/{{u.user}}/" class="btn btn-danger" onclick="return confirm('Csy napewno chcesz usunąć użytkownika')">Delete</a></td>
+                <td><a href="/delete_student/{{u.user}}/" class="btn btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć użytkownika')">Delete</a></td>
+                <td><a href="/change_password/{{u.user}}/" class="btn btn-danger">Edytuj Hasło</a></td>
             {% endfor %}
         </tbody>
     </table>

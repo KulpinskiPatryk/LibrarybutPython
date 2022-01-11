@@ -12,16 +12,24 @@
     <div class="row mt-4">
         <div class="form-group col-md-12">
             <label><i style="font-weight: bold;">Login</i></label>
-            <input type="text" class="form-control mt-2" name="username" placeholder="Enter Username" required>
+            <input type="text" class="form-control mt-2" name="username" placeholder="Wprowadź Nazwę Użytkownika" required>
         </div>
     </div>
 
     <div class="row mt-4">
         <div class="form-group col-md-12">
             <label><i style="font-weight: bold;">Hasło</i></label>
-            <input type="password" class="form-control mt-2" name="password" placeholder="Enter Password" required>
+            <input type="password" class="form-control mt-2" name="password" placeholder="Wprowadź Hasło" required>
         </div>
     </div>
     <button type="submit" class="btn btn-outline-primary mt-4">Login</button>
+</div>
+<br>
+<br>
+<div class="text-center">
+    <p>Nie masz jeszcze konta ?</p>
+    <form>
+        <button  onclick="document.location='/register/'" class="btn btn-outline-success mt-4">Zarejestruj się</button>
+    </form>
 </div>
 {% endblock %}

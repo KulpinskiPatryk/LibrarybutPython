@@ -7,6 +7,7 @@ from datetime import date
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.http import JsonResponse
+from django.contrib import messages
 
 
 def index(request):
@@ -16,10 +17,14 @@ def index(request):
         ask = Books.objects.filter(title=book.title).values('id')[0]['id']
         check = Borrowed.objects.filter(book=ask)
         check = len(check)
-        values.append(check)
+        if check != 0:
+            ask = Books.objects.filter(title=book.title).values('id')[0]['id']
+            values.append(ask)
 
     print(values)
     print(len(books))
+    for val in values:
+        books = books.exclude(id=val)
     if request.method == "POST":
         ask = request.POST['ask']
         print(ask)
@@ -36,29 +41,32 @@ def view_users(request):
 
 
 @login_required()
-@user_passes_test(lambda u: u.is_superuser)
 def view_borowed(request):
     borowed = Borrowed.objects.all()
-    if request.method == "POST":
-        ask = request.POST['ask']
-        asked = Books.objects.filter(title=ask).values('id')[0]['id']
-        print(asked)
-        print(ask)
-        if asked > 0:
-            borowed = Borrowed.objects.filter(book=asked)
+    username = None
+    flag = 0
+    if request.user.is_superuser:
+        flag = 1
+    if flag == 0:
+        if request.user.is_authenticated:
+            username = request.user.username
+            us = User.objects.filter(username=username).values('id')[0]['id']
+            borowed = Borrowed.objects.filter(user=us)
+
     return render(request, "view_borowed.html", {'borowed':borowed})
 
 
-def delete_student(request,myuser):
-    students = User.objects.filter(username=myuser).values('id')[0]['id']
-    asked = User_of_Library.objects.filter(user=students)
+def delete_student(request, myuser):
+    username = User.objects.filter(username=myuser).values('id')[0]['id']
+    asked = User_of_Library.objects.filter(user=username)
     asked.delete()
     return redirect("/view_users/")
 
 
-def unrent(request,myuser):
-    students = User.objects.filter(username=myuser).values('id')[0]['id']
-    asked = Borrowed.objects.filter(user=students)
+def unrent(request, myuser, mybook):
+    username = User.objects.filter(username=myuser).values('id')[0]['id']
+    ask = Books.objects.filter(title=mybook).values('id')[0]['id']
+    asked = Borrowed.objects.filter(book=ask, user=username)
     asked.delete()
     return redirect("/view_borowed/")
 
@@ -95,5 +103,39 @@ def Logout(request):
     logout(request)
     return redirect("/")
 
+
+def Register(request):
+    if request.method == "POST":
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        confirm_password = request.POST['confirm_password']
+
+        if password != confirm_password:
+            messages.error(request, 'Hasła się nie są identyczne')
+            return render(request, "register.html")
+
+        new_user = User.objects.create_user(username=username, email=email, password=password)
+        my_group = Group.objects.get(name='user')
+        my_group.user_set.add(new_user)
+        new_user_of_library = User_of_Library.objects.create(user=new_user)
+        new_user.save()
+        new_user_of_library.save()
+        return render(request, "index.html")
+    return render(request, "register.html")
+
+
+def change_password(request, myuser):
+    username = User.objects.filter(username=myuser).values('id')[0]['id']
+    if request.method == "POST":
+        new_password = request.POST['new_password']
+        try:
+            u = User.objects.get(id=username)
+            u.set_password(new_password)
+            u.save()
+            return render(request, "index.html")
+        except:
+            pass
+    return render(request, "change_password.html")
 
 

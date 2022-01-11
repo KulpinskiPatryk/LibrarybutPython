@@ -24,7 +24,9 @@
                 <td>{{b.date_to_return}}</td>
                 <td>{{b.book}}</td>
                 <td>{{b.user}}</td>
-                <td><a href="/unrent/{{b.user}}/" class="btn btn-danger" >Delete</a></td>
+                {% if user.is_superuser %}
+                <td><a href="/unrent/{{b.user}} {{b.book}}/" class="btn btn-danger" >Delete</a></td>
+                {% endif %}
             {% endfor %}
         </tbody>
     </table>
