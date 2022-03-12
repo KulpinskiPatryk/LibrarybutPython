@@ -8,11 +8,22 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.http import JsonResponse
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def index(request):
     books = Books.objects.all()
     values = []
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(books, 3)
+    try:
+        books = paginator.page(page)
+    except PageNotAnInteger:
+        books = paginator.page(1)
+    except EmptyPage:
+        books = paginator.page(paginator.num_pages)
+
     for book in books:
         ask = Books.objects.filter(title=book.title).values('id')[0]['id']
         check = Borrowed.objects.filter(book=ask)
@@ -21,8 +32,7 @@ def index(request):
             ask = Books.objects.filter(title=book.title).values('id')[0]['id']
             values.append(ask)
 
-    print(values)
-    print(len(books))
+
     for val in values:
         books = books.exclude(id=val)
     if request.method == "POST":
@@ -114,14 +124,16 @@ def Register(request):
         if password != confirm_password:
             messages.error(request, 'Hasła się nie są identyczne')
             return render(request, "register.html")
+        try:
+            new_user = User.objects.create_user(username=username, email=email, password=password)
+            new_user_of_library = User_of_Library.objects.create(user=new_user)
+            new_user.save()
+            new_user_of_library.save()
+            return render(request, "index.html")
 
-        new_user = User.objects.create_user(username=username, email=email, password=password)
-        my_group = Group.objects.get(name='user')
-        my_group.user_set.add(new_user)
-        new_user_of_library = User_of_Library.objects.create(user=new_user)
-        new_user.save()
-        new_user_of_library.save()
-        return render(request, "index.html")
+        except:
+            pass
+
     return render(request, "register.html")
 
 

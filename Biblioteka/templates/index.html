@@ -43,7 +43,30 @@
             {% endfor %}
         </tbody>
     </table>
-    </div>
+
+
+{% if books.has_other_pages %}
+  <ul class="pagination">
+    {% if books.has_previous %}
+      <li><a href="?page={{ books.previous_page_number }}" class="btn btn-success">&laquo;</a></li>
+    {% else %}
+      <li class="disabled btn btn-success"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in books.paginator.page_range %}
+      {% if books.number == i %}
+        <li class="active btn btn-success"><span>{{ i }} <span class="sr-only"></span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}" class="btn btn-success">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if books.has_next %}
+      <li><a href="?page={{ books.next_page_number }}" class="btn btn-success">&raquo;</a></li>
+    {% else %}
+      <li class="disabled btn btn-success"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+</div>
 {% endblock %}
 
 
