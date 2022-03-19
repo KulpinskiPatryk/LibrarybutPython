@@ -1,4 +1,5 @@
-from django.shortcuts import redirect, render,HttpResponse
+import json
+from django.shortcuts import redirect, render, HttpResponse
 from .models import *
 from .forms import *
 from django.shortcuts import get_object_or_404
@@ -9,6 +10,21 @@ from django.contrib.auth.models import Group
 from django.http import JsonResponse
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core import serializers
+
+
+def searchBook(request):
+    if request.method == "POST":
+        search_str = json.loads(request.body).get("searchText")
+        books = Books.objects.filter(title=search_str)
+        print(books)
+        data = books.values()
+        array =[]
+        for x in books.values():
+            array.append(x)
+        print(array)
+        print(data)
+        return JsonResponse(list(data), safe=False)
 
 
 def index(request):
@@ -32,22 +48,17 @@ def index(request):
             ask = Books.objects.filter(title=book.title).values('id')[0]['id']
             values.append(ask)
 
-
     for val in values:
         books = books.exclude(id=val)
-    if request.method == "POST":
-        ask = request.POST['ask']
-        print(ask)
-        if ask is not None:
-            books = Books.objects.filter(title=str(ask))
-    return render(request, "index.html", {'books':books, 'values':values})
+
+    return render(request, "index.html", {'books': books, 'values': values})
 
 
 @login_required()
 @user_passes_test(lambda u: u.is_superuser)
 def view_users(request):
     users = User_of_Library.objects.all()
-    return render(request, "view_users.html", {'users':users})
+    return render(request, "view_users.html", {'users': users})
 
 
 @login_required()
@@ -63,7 +74,7 @@ def view_borowed(request):
             us = User.objects.filter(username=username).values('id')[0]['id']
             borowed = Borrowed.objects.filter(user=us)
 
-    return render(request, "view_borowed.html", {'borowed':borowed})
+    return render(request, "view_borowed.html", {'borowed': borowed})
 
 
 def delete_student(request, myuser):
@@ -104,7 +115,6 @@ def Login(request):
         if user is not None:
             login(request, user)
             redirect("/index/")
-
 
     return render(request, "Login.html")
 
@@ -149,5 +159,3 @@ def change_password(request, myuser):
         except:
             pass
     return render(request, "change_password.html")
-
-
