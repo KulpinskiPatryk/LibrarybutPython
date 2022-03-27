@@ -37,8 +37,6 @@ if (searchValue.trim().length > 0) {
                 <td>1</td>
                 <td>${item.title}</td>
                 <td>${item.pages}</td>
-                <td>${item.author_id}</td>
-                <td>${item.genre_id}</td>
                 </tr>`;
           });
         }
